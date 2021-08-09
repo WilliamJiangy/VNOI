@@ -1,0 +1,62 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+
+#define testcase() {ll t; cin >> t; while(t--) {solve();}}
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+#define pb push_back
+#define ar array
+#define bug() cout << "######PLEASE_NO_BUG######\n"
+
+const int nxM = 5e4 + 7;
+int a[nxM], P, Rank[nxM], par[nxM];
+
+void reset() {
+	for(int i = 1; i <= nxM - 6; i++) {
+		par[i] = i;
+		Rank[i] = 0;
+	}
+}
+
+int find(int u) {
+	if(u != par[u]) par[u] = find(par[u]);
+	return par[u];
+}
+
+bool join(int u, int v) {
+	u = find(u);
+	v = find(v);
+	if(u == v) return false;
+	if(Rank[u] == Rank[v]) Rank[u]++;
+	if(Rank[u] >= Rank[v]) par[v] = u;
+	else par[u] = v;
+	return true;
+}
+
+void solve() {
+	reset();
+	cin >> P;
+	for(int i = 0, x, y, z; i < P; i++) {	
+		cin >> x >> y >> z;
+		if(z == 1) {
+			join(x, y);
+		}
+		else {
+			if(find(x) == find(y)) puts("1");
+			else puts("0");
+		}	
+//		for(int i = 1; i <= P; i++) cout << par[i] << " ";
+		cout << "\n";
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+//	testcase();
+	solve();
+	return 0;
+}
