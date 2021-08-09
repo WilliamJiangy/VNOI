@@ -1,0 +1,37 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+ 
+#define testcase() {int t; cin >> t; while(t--) {solve();}}
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int)(x).size())
+#define pb push_back
+#define ar array
+#define bug() cout << "######PLEASE_NO_BUG######\n"
+ 
+const int nxM = 6e4 + 7;
+int t[nxM], r[nxM], n, dp[nxM][2];
+ 
+void solve() {
+	cin >> n;
+	for(int i = 0; i < n; i++) cin >> t[i];
+	for(int j = 0; j < n - 1; j++) cin >> r[j];
+	dp[0][0] = t[0];
+	dp[0][1] = 1e9 + 7;
+	dp[1][0] = t[0] + t[1];
+	dp[1][1] = r[0];
+	for(int i = 2; i < n; i++) {
+		dp[i][0] = min(dp[i - 1][0], dp[i - 1][1]) + t[i];
+		dp[i][1] = min(dp[i - 2][0], dp[i - 2][1]) + r[i - 1];
+	} 
+	cout << min(dp[n - 1][0], dp[n - 1][1]) << "\n";
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	solve();
+	return 0;
+}
