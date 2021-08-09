@@ -1,0 +1,39 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+
+#define testcase() {ll t; cin >> t; while(t--) {solve();}}
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+#define pb push_back
+#define ar array
+#define bug() cout << "######PLEASE_NO_BUG######\n"
+
+void solve() {
+	int c, n;
+	cin >> c >> n;
+	int w[n];
+	for(int i = 0; i < n; i++) cin >> w[i];
+	int ans = 0;
+	for(int i = 0; i < 1 << n; i++) {
+		int res = 0;
+		for(int j = 0; j < n; j++) {
+			if(i >> j & 1) {
+				res += w[j];
+				if(res <= c) ans = max(ans, res);
+				else break;
+			}
+		}
+	}
+	cout << ans << "\n";
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+//	testcase();
+	solve();
+	return 0;
+}
