@@ -1,0 +1,69 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+
+#define testcase() {ll t; cin >> t; while(t--) {solve();}}
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((ll)(x).size())
+#define pb push_back
+#define ar array
+#define bug() cout << "######PLEASE_NO_BUG######\n"
+
+const int nxM = 2e6 + 7;
+int a[nxM], tree_max[nxM], tree_min[nxM];
+
+void build(int node, int start, int end) {
+	if(start == end) {
+		tree_max[node] = a[start];
+		tree_min[node] = a[start];
+	}
+	else {
+		int mid = (start + end) / 2;
+		build(2 * node, start, mid);
+		build(2 * node + 1, mid + 1, end);
+		tree_max[node] = max(tree_max[2 * node], tree_max[2 * node + 1]);
+		tree_min[node] = min(tree_min[2 * node], tree_min[2 * node + 1]);
+	}
+}
+
+int query_min(int node, int start, int end, int l, int r) {
+	if(r < start || end < l) return 1000000009;
+	if(l <= start && end <= r) return tree_min[node];
+	int mid = (start + end) / 2;
+	int q1 = query_min(2 * node, start, mid, l, r);
+	int q2 = query_min(2 * node + 1, mid + 1, end, l, r);
+	return min(q1, q2);
+}
+
+int query_max(int node, int start, int end, int l, int r) {
+	if(r < start || end < l) return 0;
+	if(l <= start && end <= r) return tree_max[node];
+	int mid = (start + end) / 2;
+	int q1 = query_max(2 * node, start, mid, l, r);
+	int q2 = query_max(2 * node + 1, mid + 1, end, l, r);
+	return max(q1, q2);
+}
+
+void solve() {
+	int n, m;
+	cin >> n >> m;
+	for(int i = 1; i <= n; i++) {
+		cin >> a[i];
+	}
+	build(1, 1, n);
+	for(int i = 0; i < m; i++) {
+		int a, b;
+		cin >> a >> b;
+		cout << query_max(1, 1, n, a, b) - query_min(1, 1, n, a, b) << "\n";
+	}
+}
+
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+//	testcase();
+	solve();
+	return 0;
+}
