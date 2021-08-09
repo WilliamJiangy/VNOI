@@ -1,0 +1,34 @@
+// @Author: WilliamJiangy
+#include <bits/stdc++.h>
+using namespace std;
+using ll = long long;
+using ull = unsigned long long;
+ 
+#define testcase() {int t; cin >> t; while(t--) {solve();}}
+#define all(x) (x).begin(), (x).end()
+#define sz(x) ((int)(x).size())
+#define pb push_back
+#define ar array
+#define bug() cout << "######PLEASE_NO_BUG######\n"
+ 
+const int nxM = 1e3 + 7;
+int n;
+ 
+void solve() {
+	cin >> n;
+	vector<int> ans;
+	for(int i = 0, a; i < n; i++) {
+		cin >> a;
+		int l = lower_bound(all(ans), a) - ans.begin();
+		if(l < sz(ans)) ans[l] = a;
+		else ans.pb(a);
+	}
+	cout << sz(ans) << "\n";
+}
+ 
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	solve();
+	return 0;
+}
